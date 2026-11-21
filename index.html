@@ -593,6 +593,14 @@ const SHOP = {
    每個位置 [名稱, 價格, 已售出就寫 1] */
 const BREAKS = [
   /* 開團時在這裡加一團 */
+  {
+    id:"T01", status:"open", cat:"NBA", format:"random",
+    title:"【測試團・請勿下單】2026-27 Topps Basketball Jumbo ×1",
+    box:"Jumbo Box ×1", brand:"Topps", sub:"Flagship Basketball", color:"#c8102e",
+    deadline:"2026-11-30T21:00:00+08:00",
+    config:["這是系統測試用的團，不會真的開","每盒 10 包，每包 28 張","10 個位置，直播時隨機抽出球隊"],
+    slots: Array.from({length:10},(_,i)=>["位置 "+String(i+1).padStart(2,"0"),300])
+  },
 ].map(b=>({...b, slots:b.slots.map(([name,price,sold])=>({name,price,sold:!!sold}))}));
 
 const FORMAT = {
