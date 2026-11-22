@@ -935,7 +935,7 @@ async function loadOrders(){
 function renderOrders(){
   const os=oData.orders, m=oData.monday, cnt=k=>os.filter(o=>o.stage===k).length;
   const monLabel=m.today?"今天（週一）":m.date+"（一）";
-  $("#oBar").innerHTML=Object.keys(OST).map(k=>`<button type="button" class="${k==="ready"?"mon ":""}${oFilter===k?"on":""}" data-f="${k}"><b>${cnt(k)}</b><span>${k==="ready"?monLabel+"寄":OST[k]}</span></button>`).join("");
+  $("#oBar").innerHTML=Object.keys(OST).map(k=>`<button type="button" class="${k==="ready"?"mon ":""}${oFilter===k?"on":""}" data-f="${k}"><b>${cnt(k)}</b><span>${k==="ready"?(m.today?"今天寄":m.date+" 寄"):OST[k]}</span></button>`).join("");
   const ready=os.filter(o=>o.stage==="ready"), wait=os.filter(o=>o.stage==="waiting"), unpaid=os.filter(o=>o.stage==="unpaid");
   $("#oBatch").innerHTML=ready.length
     ?`<h3>${monLabel}這幾筆會一起寄，合成 <span class="num">1</span> 包</h3><ul>${ready.map(o=>`<li><b class="num">${escH(o.id)}</b>　${escH(o.items)}</li>`).join("")}</ul>`+
