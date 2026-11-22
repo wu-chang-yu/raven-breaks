@@ -185,6 +185,30 @@ nav.main .icon:hover{color:var(--red)}
 .lk-row .cta{margin:0}
 .lk-out{margin:10px 0 0;font-size:14.5px}
 .lk-out b{color:var(--red);font-size:18px}
+/* 我的訂單 */
+.lk-two input{min-width:160px}
+.stbar{display:grid;grid-template-columns:repeat(4,1fr);border-top:3px solid var(--ink);border-bottom:1px solid var(--hair);margin:0 0 22px}
+.stbar button{padding:16px 6px 12px;text-align:center;cursor:pointer}
+.stbar button+button{border-left:1px solid var(--hair)}
+.stbar b{display:block;font-family:var(--num);font-size:34px;line-height:1.1}
+.stbar span{font-size:13.5px;color:var(--gray)}
+.stbar .mon b{color:var(--red)}
+.stbar button.on{box-shadow:inset 0 -3px 0 var(--ink)}
+.stbar button.on span{color:var(--ink);font-weight:700}
+.batch{background:var(--tint);padding:18px 20px;margin:0 0 26px}
+.batch h3{font-size:18px;font-weight:900;margin:0 0 4px}
+.batch h3 .num{color:var(--red);font-size:24px;margin:0 2px}
+.batch ul{margin:10px 0 6px;padding-left:20px}
+.batch li{margin:2px 0}
+.batch .sm{font-size:13px;color:var(--gray);margin:6px 0 0}
+.olist .o{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:14px 0;border-bottom:1px solid var(--hair)}
+.olist .o .id{font-family:var(--num);font-size:17px}
+.olist .o .it{grid-column:1;font-size:14px;color:#333}
+.olist .o .st{grid-column:2;grid-row:1;text-align:right;font-weight:900;font-size:13.5px}
+.olist .o .amt{grid-column:2;text-align:right;font-family:var(--num);font-size:18px}
+.olist .o .tk{grid-column:1/-1;font-size:13px;color:var(--gray)}
+.st-unpaid{color:var(--red)}.st-waiting{color:var(--gray)}.st-ready{color:var(--ink)}.st-shipped{color:#1f7a45}
+@media (max-width:560px){.stbar b{font-size:28px}.stbar span{font-size:12px}}
 .pay{border:2px solid var(--ink);padding:12px 14px;margin-bottom:12px;background:var(--tint)}
 .pay-h{font-weight:900;margin-bottom:6px}
 .pay-h b.num{color:var(--red);font-size:20px}
@@ -493,6 +517,23 @@ footer a:hover{color:var(--ink)}
   </div></div>
 </section>
 
+<!-- MY ORDERS -->
+<section class="page" id="p-orders">
+  <div class="sec"><div class="wrap">
+    <div class="sec-head" style="margin-bottom:14px"><div><h2>我的訂單</h2><p>每週一統一寄出。同一週開好盒的卡，會合成一包寄給你。</p></div></div>
+    <form class="lookup" id="ordForm">
+      <label for="oId">輸入任一筆訂單編號和下單時填的 LINE / IG，就能看到你全部的訂單</label>
+      <div class="lk-row lk-two"><input id="oId" placeholder="訂單編號，例如 RB1122-0001" autocomplete="off"><input id="oLine" placeholder="LINE / IG" autocomplete="off"><button class="cta" type="submit">查詢</button></div>
+      <p class="lk-out" id="oOut" role="status"></p>
+    </form>
+    <div id="ordView" hidden>
+      <div class="stbar" id="oBar"></div>
+      <div class="batch" id="oBatch"></div>
+      <div class="olist" id="oList"></div>
+    </div>
+  </div></div>
+</section>
+
 <!-- SHOP -->
 <section class="page" id="p-shop">
   <div class="sec"><div class="wrap">
@@ -558,11 +599,12 @@ footer a:hover{color:var(--ink)}
   <div class="panel">
     <div class="ph"><h2 id="uTitle">我的資料</h2><button class="x" data-close>關閉</button></div>
     <div class="pb">
+      <a class="go" href="#orders" data-close style="display:block;text-align:center;margin:16px 0 4px">查看我的訂單與出貨進度</a>
       <p class="note" style="margin-top:12px">填一次就好，之後報名會自動帶入。資料只存在這台裝置的瀏覽器裡。</p>
       <div class="field"><label for="fName">名字 / 暱稱</label><input id="fName" autocomplete="nickname" placeholder="例如：小鴉"></div>
       <div class="field"><label for="fLine">LINE 名稱或 IG 帳號</label><input id="fLine" placeholder="方便我們對帳"></div>
       <div class="field"><label for="fShip">寄送方式</label>
-        <select id="fShip"><option>7-11 店到店</option><option>全家店到店</option><option>郵局掛號</option><option>累積寄送（下次一起寄）</option></select>
+        <select id="fShip"><option>7-11 店到店</option><option>全家店到店</option><option>郵局掛號</option><option>先寄放，不要寄（之後通知再寄）</option></select>
       </div>
       <div class="field"><label for="fStore">門市名稱或地址</label><input id="fStore" placeholder="例如：7-11 東英門市"></div>
       <button class="cta" id="saveProfile" style="margin:4px 0 0">儲存</button>
@@ -737,7 +779,7 @@ const RULES = [
   ["一張卡有多位球員簽名",`<ol><li>卡上哪一隊的球員最多，就歸那一隊的買家。</li><li>人數一樣時，在直播中抽籤決定。</li><li>球員所屬球隊以官方卡表（checklist）為準，不看球員現在效力的球隊。</li><li>隨機尾號團不適用以上規則，沒有編號或多簽的卡，一律直播抽籤。</li></ol>`],
   ["國家隊卡怎麼算",`<p>卡片只標示國家隊、沒標示職業球隊時，依<b>開團當下</b>球員所屬的職業球隊認定；開團後轉隊不影響歸屬。</p>`],
   ["時間到了還沒滿團",`<ul><li><b>延長：</b>自動延長截止時間，直到賣完。</li><li><b>取消：</b>若決定取消，已付款的買家全額退款，7 個工作天內原路退回。</li></ul>`],
-  ["寄送與保護",`<p>開出的卡會套卡套、硬殼卡夾後寄出。可選 7-11／全家店到店、郵局掛號，或累積到下次一起寄。</p>`]
+  ["寄送與保護",`<p><b>每週一統一寄出。</b>週一出貨前已經開盒的卡，同一個人會合成一包寄，在「我的訂單」可以看到這週哪些會一起寄。</p><p>卡會套卡套、硬殼卡夾後寄出。可選 7-11／全家店到店、郵局掛號，或先寄放，之後通知再寄。</p>`]
 ];
 const rulesHTML = RULES.map(([t,c])=>`<div class="rule"><h3>${t}</h3><div class="c">${c}</div></div>`).join("");
 $("#rulesFull").innerHTML = rulesHTML;
@@ -870,16 +912,56 @@ $("#cartBtn").addEventListener("click",()=>{renderCart();openDrawer("#cartDrawer
 $("#copyAcct").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(SHOP.bankAcct);toast("已複製帳號")}catch(_){toast("請手動複製帳號")}});
 renderCartIcon();
 
+/* ===== 我的訂單 ===== */
+const escH=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+const OST={unpaid:"待付款",waiting:"等開盒",ready:"週一寄出",shipped:"已寄出"};
+let oData=null, oFilter="";
+function orderPrefill(){
+  if(!$("#oLine").value&&profile.line) $("#oLine").value=profile.line;
+  const last=orders.filter(o=>o.orderId).pop();
+  if(!$("#oId").value&&last) $("#oId").value=last.orderId;
+}
+async function loadOrders(){
+  const id=$("#oId").value.trim(), line=$("#oLine").value.trim(), out=$("#oOut");
+  if(!id||!line){out.textContent="請輸入訂單編號和 LINE / IG。";return}
+  if(!SHOP.api){out.textContent="線上查詢還沒開放，請先私訊 LINE 詢問。";return}
+  out.textContent="查詢中…";
+  try{
+    const r=await fetch(SHOP.api+"?q="+encodeURIComponent(id)+"&line="+encodeURIComponent(line)).then(res=>res.json());
+    if(!r.ok||!r.orders){out.textContent=r.error||"查不到。";$("#ordView").hidden=true;return}
+    out.textContent=""; oData=r; oFilter=""; renderOrders();
+  }catch(_){out.textContent="連線失敗，請稍後再試。"}
+}
+function renderOrders(){
+  const os=oData.orders, m=oData.monday, cnt=k=>os.filter(o=>o.stage===k).length;
+  const monLabel=m.today?"今天（週一）":m.date+"（一）";
+  $("#oBar").innerHTML=Object.keys(OST).map(k=>`<button type="button" class="${k==="ready"?"mon ":""}${oFilter===k?"on":""}" data-f="${k}"><b>${cnt(k)}</b><span>${k==="ready"?monLabel+"寄":OST[k]}</span></button>`).join("");
+  const ready=os.filter(o=>o.stage==="ready"), wait=os.filter(o=>o.stage==="waiting"), unpaid=os.filter(o=>o.stage==="unpaid");
+  $("#oBatch").innerHTML=ready.length
+    ?`<h3>${monLabel}這幾筆會一起寄，合成 <span class="num">1</span> 包</h3><ul>${ready.map(o=>`<li><b class="num">${escH(o.id)}</b>　${escH(o.items)}</li>`).join("")}</ul>`+
+      (wait.length?`<p class="sm">另外還有 ${wait.length} 筆在等開盒。只要在週一出貨前開盒，也會放進同一包。</p>`:"")
+    :`<h3>${monLabel}目前沒有要寄的</h3><p class="sm">${wait.length?`你有 ${wait.length} 筆在等開盒，開好後會排進最近的週一一起寄。`:unpaid.length?"付款確認、開盒之後，就會排進週一出貨。":"開好盒的卡會在每週一統一寄出。"}</p>`;
+  const list=oFilter?os.filter(o=>o.stage===oFilter):os;
+  $("#oList").innerHTML=list.length?list.map(o=>`<div class="o"><span class="id">${escH(o.id)}</span><span class="st st-${o.stage}">${o.stage==="ready"?monLabel+"寄出":OST[o.stage]}</span>
+    <span class="it">${escH(o.items)}</span><span class="amt">${nt(o.total)}</span>
+    ${o.stage==="shipped"?`<span class="tk">${o.shippedAt?new Date(o.shippedAt).toLocaleDateString("zh-TW")+" 寄出":""}${o.track?"・物流單號 "+escH(o.track):""}</span>`:o.tickets&&/\d/.test(o.tickets)?`<span class="tk">抽獎券 ${escH(o.tickets)}</span>`:""}</div>`).join("")
+    :`<p class="empty">沒有這個狀態的訂單</p>`;
+  $("#ordView").hidden=false;
+}
+$("#ordForm").addEventListener("submit",e=>{e.preventDefault();loadOrders()});
+$("#oBar").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;oFilter=oFilter===b.dataset.f?"":b.dataset.f;renderOrders()});
+
 /* ===== router ===== */
 function route(){
   const h=(location.hash||"#home").slice(1);
   let page=h, navKey=h;
   if(h.startsWith("break-")){page="detail";navKey="breaks";showDetail(h.slice(6))}
   else { clearInterval(timer); cur=null; document.title="Raven Breaks 團拆"; }
-  if(!["home","breaks","detail","rules","about","shop","live","contact","event"].includes(page)){page="home";navKey="home"}
+  if(!["home","breaks","detail","rules","about","shop","live","contact","event","orders"].includes(page)){page="home";navKey="home"}
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.id==="p-"+page));
   document.querySelectorAll("nav.main a").forEach(a=>a.classList.toggle("on",a.dataset.nav===navKey));
   window.scrollTo(0,0);
+  if(page==="orders"){document.title="我的訂單｜Raven Breaks";orderPrefill();if($("#oId").value&&$("#oLine").value&&!oData)loadOrders()}
 }
 addEventListener("hashchange",route); route();
 </script>
