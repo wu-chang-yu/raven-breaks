@@ -388,6 +388,7 @@ footer a:hover{color:var(--ink)}
     <a href="#live" data-nav="live"><span class="dot" aria-hidden="true"></span>直播</a>
     <a href="#about" data-nav="about">關於我們</a>
     <a href="#contact" data-nav="contact">聯絡我們</a>
+    <a href="#orders" data-nav="orders">我的訂單</a>
     <div class="icons">
       <button class="icon" id="cartIcon" aria-label="購物車"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 10.5h10.3L20 7H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg><span class="badge" id="cartCount"></span></button>
       <button class="icon" id="userIcon" aria-label="我的資料"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></button>
@@ -520,7 +521,7 @@ footer a:hover{color:var(--ink)}
 <!-- MY ORDERS -->
 <section class="page" id="p-orders">
   <div class="sec"><div class="wrap">
-    <div class="sec-head" style="margin-bottom:14px"><div><h2>我的訂單</h2><p>每週一統一寄出。同一週開好盒的卡，會合成一包寄給你。</p></div></div>
+    <div class="sec-head" style="margin-bottom:14px"><div><h2>我的訂單</h2><p>每週四統一寄出。同一週開好盒的卡，會合成一包寄給你。</p></div></div>
     <form class="lookup" id="ordForm">
       <label for="oId">輸入任一筆訂單編號和下單時填的 LINE / IG，就能看到你全部的訂單</label>
       <div class="lk-row lk-two"><input id="oId" placeholder="訂單編號，例如 RB1122-0001" autocomplete="off"><input id="oLine" placeholder="LINE / IG" autocomplete="off"><button class="cta" type="submit">查詢</button></div>
@@ -779,7 +780,7 @@ const RULES = [
   ["一張卡有多位球員簽名",`<ol><li>卡上哪一隊的球員最多，就歸那一隊的買家。</li><li>人數一樣時，在直播中抽籤決定。</li><li>球員所屬球隊以官方卡表（checklist）為準，不看球員現在效力的球隊。</li><li>隨機尾號團不適用以上規則，沒有編號或多簽的卡，一律直播抽籤。</li></ol>`],
   ["國家隊卡怎麼算",`<p>卡片只標示國家隊、沒標示職業球隊時，依<b>開團當下</b>球員所屬的職業球隊認定；開團後轉隊不影響歸屬。</p>`],
   ["時間到了還沒滿團",`<ul><li><b>延長：</b>自動延長截止時間，直到賣完。</li><li><b>取消：</b>若決定取消，已付款的買家全額退款，7 個工作天內原路退回。</li></ul>`],
-  ["寄送與保護",`<p><b>每週一統一寄出。</b>週一出貨前已經開盒的卡，同一個人會合成一包寄，在「我的訂單」可以看到這週哪些會一起寄。</p><p>卡會套卡套、硬殼卡夾後寄出。可選 7-11／全家店到店、郵局掛號，或先寄放，之後通知再寄。</p>`]
+  ["寄送與保護",`<p><b>每週四統一寄出。</b>週四出貨前已經開盒的卡，同一個人會合成一包寄，在「我的訂單」可以看到這週哪些會一起寄。</p><p>卡會套卡套、硬殼卡夾後寄出。可選 7-11／全家店到店、郵局掛號，或先寄放，之後通知再寄。</p>`]
 ];
 const rulesHTML = RULES.map(([t,c])=>`<div class="rule"><h3>${t}</h3><div class="c">${c}</div></div>`).join("");
 $("#rulesFull").innerHTML = rulesHTML;
@@ -914,7 +915,7 @@ renderCartIcon();
 
 /* ===== 我的訂單 ===== */
 const escH=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
-const OST={unpaid:"待付款",waiting:"等開盒",ready:"週一寄出",shipped:"已寄出"};
+const OST={unpaid:"待付款",waiting:"等開盒",ready:"出貨日寄出",shipped:"已寄出"};
 let oData=null, oFilter="";
 function orderPrefill(){
   if(!$("#oLine").value&&profile.line) $("#oLine").value=profile.line;
@@ -934,13 +935,13 @@ async function loadOrders(){
 }
 function renderOrders(){
   const os=oData.orders, m=oData.monday, cnt=k=>os.filter(o=>o.stage===k).length;
-  const monLabel=m.today?"今天（週一）":m.date+"（一）";
+  const w=m.w||"四", monLabel=m.today?`今天（週${w}）`:m.date+`（${w}）`;
   $("#oBar").innerHTML=Object.keys(OST).map(k=>`<button type="button" class="${k==="ready"?"mon ":""}${oFilter===k?"on":""}" data-f="${k}"><b>${cnt(k)}</b><span>${k==="ready"?(m.today?"今天寄":m.date+" 寄"):OST[k]}</span></button>`).join("");
   const ready=os.filter(o=>o.stage==="ready"), wait=os.filter(o=>o.stage==="waiting"), unpaid=os.filter(o=>o.stage==="unpaid");
   $("#oBatch").innerHTML=ready.length
     ?`<h3>${monLabel}這幾筆會一起寄，合成 <span class="num">1</span> 包</h3><ul>${ready.map(o=>`<li><b class="num">${escH(o.id)}</b>　${escH(o.items)}</li>`).join("")}</ul>`+
-      (wait.length?`<p class="sm">另外還有 ${wait.length} 筆在等開盒。只要在週一出貨前開盒，也會放進同一包。</p>`:"")
-    :`<h3>${monLabel}目前沒有要寄的</h3><p class="sm">${wait.length?`你有 ${wait.length} 筆在等開盒，開好後會排進最近的週一一起寄。`:unpaid.length?"付款確認、開盒之後，就會排進週一出貨。":"開好盒的卡會在每週一統一寄出。"}</p>`;
+      (wait.length?`<p class="sm">另外還有 ${wait.length} 筆在等開盒。只要在週${w}出貨前開盒，也會放進同一包。</p>`:"")
+    :`<h3>${monLabel}目前沒有要寄的</h3><p class="sm">${wait.length?`你有 ${wait.length} 筆在等開盒，開好後會排進最近的週${w}一起寄。`:unpaid.length?`付款確認、開盒之後，就會排進週${w}出貨。`:`開好盒的卡會在每週${w}統一寄出。`}</p>`;
   const list=oFilter?os.filter(o=>o.stage===oFilter):os;
   $("#oList").innerHTML=list.length?list.map(o=>`<div class="o"><span class="id">${escH(o.id)}</span><span class="st st-${o.stage}">${o.stage==="ready"?monLabel+"寄出":OST[o.stage]}</span>
     <span class="it">${escH(o.items)}</span><span class="amt">${nt(o.total)}</span>
