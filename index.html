@@ -586,7 +586,7 @@ footer a:hover{color:var(--ink)}
       <div class="ticket" id="cartTicket"></div>
       <div class="field" id="msgField" style="display:none"><label for="fMsg">報名訊息（已複製，貼到 LINE 傳給我們）</label><textarea id="fMsg" readonly></textarea></div>
       <div class="pay" id="payBox" style="display:none">
-        <div class="pay-h">請在 <b id="payMin"></b> 分鐘內付款 <b class="num" id="payAmt"></b></div>
+        <div class="pay-h">付款金額 <b class="num" id="payAmt"></b></div>
         <div class="pay-row"><span>銀行轉帳</span><div><b id="payBank"></b><br><span class="num acct" id="payAcct"></span> <button class="more" type="button" id="copyAcct">複製帳號</button></div></div>
         <div class="pay-row"><span>LINE Pay</span><div>用 LINE Pay 轉帳到上面的帳戶，或在 LINE 跟我們拿收款碼</div></div>
         <p class="note" style="margin:8px 0 0">付完款在 LINE 傳「訂單編號 + 你的帳號後 5 碼」，我們確認後就會發抽獎券。</p>
@@ -791,7 +791,7 @@ try{const last=(JSON.parse(localStorage.getItem("rb_history"))||[]).filter(o=>o.
 
 /* ===== rules ===== */
 const RULES = [
-  ["怎麼搶位置",`<ol><li><b>先在 LINE 群組喊：</b>開團公告後，在群組回覆你要的球隊或位置，<b>以群組裡先喊到的人為準</b>。</li><li><b>喊到後到網站登記：</b>到這團的頁面勾選你喊到的位置，加入購物車。只能登記自己喊到的位置，登記到別人喊走的位置會被取消。</li><li><b>結帳付款：</b>送出報名後，請在 <b>${SHOP.payMinutes} 分鐘</b>內完成付款，逾時位置會釋出給下一位。</li></ol>`],
+  ["怎麼搶位置",`<ol><li><b>先在 LINE 群組喊：</b>開團公告後，在群組回覆你要的球隊或位置，<b>以群組裡先喊到的人為準</b>。</li><li><b>喊到後到網站登記：</b>到這團的頁面勾選你喊到的位置，加入購物車。只能登記自己喊到的位置，登記到別人喊走的位置會被取消。</li></ol>`],
   ["一張卡有多位球員簽名",`<ol><li>卡上哪一隊的球員最多，就歸那一隊的買家。</li><li>人數一樣時，在直播中抽籤決定。</li><li>球員所屬球隊以官方卡表（checklist）為準，不看球員現在效力的球隊。</li><li>隨機尾號團不適用以上規則，沒有編號或多簽的卡，一律直播抽籤。</li></ol>`],
   ["國家隊卡怎麼算",`<p>卡片只標示國家隊、沒標示職業球隊時，依<b>開團當下</b>球員所屬的職業球隊認定；開團後轉隊不影響歸屬。</p>`],
   ["時間到了還沒滿團",`<ul><li><b>延長：</b>自動延長截止時間，直到賣完。</li><li><b>取消：</b>若決定取消，已付款的買家全額退款，7 個工作天內原路退回。</li></ul>`],
@@ -884,7 +884,7 @@ $("#checkoutBtn").addEventListener("click",async()=>{
   }
   const msg=buildMsg(items,orderId); $("#fMsg").value=msg; $("#msgField").style.display="flex";
   try{await navigator.clipboard.writeText(msg);toast(orderId?`訂單 ${orderId} 已送出，訊息已複製`:"已複製，貼到 LINE 傳給我們")}catch(_){$("#fMsg").select();toast("請長按訊息框手動複製")}
-  $("#payMin").textContent=SHOP.payMinutes; $("#payAmt").textContent=nt(sum);
+  $("#payAmt").textContent=nt(sum);
   $("#payBank").textContent=`${SHOP.bankName}（${SHOP.bankCode}）`; $("#payAcct").textContent=SHOP.bankAcct;
   $("#payBox").style.display="block";
   orders.push({at:new Date().toLocaleString("zh-TW",{hour12:false}),orderId,items:items.map(x=>`#${x.b} ${x.slot.name}`).join("、"),total:sum,tickets:count});
