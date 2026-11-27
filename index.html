@@ -675,7 +675,7 @@ $("#ytGo").href=SHOP.ytUrl;
 /* 商城商品：[品名, 分類, 價格, 狀態] */
 const SHOP_ITEMS = [
 ];
-$("#shopList").innerHTML = SHOP_ITEMS.length ? "" : `<p class="empty-row">商品準備中，想找卡可以先私訊 LINE。</p>`;
+$("#shopList").innerHTML = SHOP_ITEMS.length ? "" : `<p class="empty-row">商品準備中。</p>`;
 if(SHOP_ITEMS.length) $("#shopList").innerHTML = SHOP_ITEMS.map(([n,c,p,st],i)=>`<a class="row" href="${SHOP.lineUrl}">
   <span class="no num">${String(i+1).padStart(2,"0")}</span><span class="swatch" style="background:var(--hair)"></span>
   <div><h3>${n}</h3><div class="sub"><span class="status ${st==="現貨"?"open":"soon"}">${st}</span>${c}</div></div>
