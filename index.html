@@ -571,7 +571,7 @@ footer a:hover{color:var(--ink)}
   <div class="wrap">
     <div><a href="#home" aria-label="Raven Breaks 首頁"><svg class="logo-foot" viewBox="0 0 800 470" role="img" aria-label="Raven Breaks"><use href="#rbLogo"/></svg></a><p style="margin:14px 0 0;max-width:34ch">全程直播的卡牌團拆。運動卡、寶可夢、TCG。</p></div>
     <div><h4>服務</h4><a href="#breaks">所有團拆</a><a href="#rules">團拆規則</a><a href="#orders">我的訂單</a></div>
-    <div><h4>社群</h4><a id="lineFoot" href="#" target="_blank" rel="noopener">LINE 社群</a><a id="igFoot" href="#" target="_blank" rel="noopener">Instagram</a><a id="ytFoot" href="#" target="_blank" rel="noopener">YouTube</a></div>
+    <div><h4>社群</h4><a id="lineFoot" href="#" target="_blank" rel="noopener">LINE 社群</a><a id="ytFoot" href="#" target="_blank" rel="noopener">YouTube</a></div>
     <div class="warn">防詐提醒：我們不會打電話要求你操作 ATM、網路銀行或解除分期付款。接到可疑電話請撥 165 反詐騙專線。　© 2026 Raven Breaks</div>
   </div>
 </footer>
@@ -669,7 +669,7 @@ function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");c
 /* ===== static bits ===== */
 $("#strip").innerHTML=`<a href="#event">${SHOP.strip}</a>`;
 ["#lineFoot","#lineGo"].forEach(s=>$(s).href=SHOP.lineUrl);
-$("#igFoot").href=SHOP.igUrl; if(/instagram\.com\/?$/.test(SHOP.igUrl)) $("#igFoot").hidden=true; $("#ytFoot").href=SHOP.ytUrl;
+$("#ytFoot").href=SHOP.ytUrl;
 $("#ytGo").href=SHOP.ytUrl;
 
 /* 商城商品：[品名, 分類, 價格, 狀態] */
