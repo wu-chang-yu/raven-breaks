@@ -657,6 +657,22 @@ const SHOP = {
 const BREAKS = [
   /* 開團時在這裡加一團 */
   {
+    id:"P01", status:"open", cat:"NBA", format:"pick",
+    title:"【練習團】2026-27 Topps Basketball Jumbo ×2 自選球隊",
+    box:"Jumbo Box ×2", brand:"Topps", sub:"Flagship Basketball", color:"#552583",
+    deadline:"2026-12-06T21:00:00+08:00",
+    config:["練習用的團，不會真的開","2 盒 Jumbo，每盒 10 包","選你要的球隊，開出該隊的卡都歸你"],
+    slots:[["湖人 Lakers",900],["勇士 Warriors",850],["馬刺 Spurs",800],["雷霆 Thunder",650],["塞爾提克 Celtics",600],["尼克 Knicks",550],["金塊 Nuggets",500],["獨行俠 Mavericks",450],["騎士 Cavaliers",400],["火箭 Rockets",350],["公牛 Bulls",300],["熱火 Heat",250]]
+  },
+  {
+    id:"P02", status:"open", cat:"NBA", format:"random",
+    title:"【練習團】2026-27 Topps Basketball Hobby ×1 隨機球隊",
+    box:"Hobby Box ×1", brand:"Topps", sub:"Flagship Basketball", color:"#1d428a",
+    deadline:"2026-12-06T21:00:00+08:00",
+    config:["練習用的團，不會真的開","1 盒 Hobby","10 個位置同價，直播時隨機分配球隊"],
+    slots: Array.from({length:10},(_,i)=>["位置 "+String(i+1).padStart(2,"0"),250])
+  },
+  {
     id:"T01", status:"open", cat:"NBA", format:"random",
     title:"【測試團・請勿下單】2026-27 Topps Basketball Jumbo ×1",
     box:"Jumbo Box ×1", brand:"Topps", sub:"Flagship Basketball", color:"#c8102e",
