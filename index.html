@@ -588,11 +588,11 @@ footer a:hover{color:var(--ink)}
       <div class="pay" id="payBox" style="display:none">
         <div class="pay-h">付款金額 <b class="num" id="payAmt"></b></div>
         <div class="pay-row"><span>銀行轉帳</span><div><b id="payBank"></b><br><span class="num acct" id="payAcct"></span> <button class="more" type="button" id="copyAcct">複製帳號</button></div></div>
-        <div class="pay-row"><span>LINE Pay</span><div>用 LINE Pay 轉帳到上面的帳戶，或在 LINE 跟我們拿收款碼</div></div>
-        <p class="note" style="margin:8px 0 0">付完款在 LINE 傳「訂單編號 + 你的帳號後 5 碼」，我們確認後就會發抽獎券。</p>
+        <div class="pay-row"><span>LINE 好友轉帳</span><div>加我們 LINE 好友，直接用 LINE Pay 轉給我們</div></div>
+        <p class="note" style="margin:8px 0 0">付完款在 LINE 傳「訂單編號」給我們，銀行轉帳的話再附上你的帳號後 5 碼，我們確認後就會發抽獎券。</p>
       </div>
       <button class="cta" id="checkoutBtn">送出報名（複製訊息）</button>
-      <p class="note">報名資料用「我的資料」裡填的。送出訊息不代表已保留位置，以我們回覆確認、且你在 15 分鐘內完成付款為準。<a class="more" id="lineGo" href="#">開啟 LINE</a></p>
+      <p class="note">報名資料用「我的資料」裡填的。位置以 LINE 群組裡先喊到的人為準。<a class="more" id="lineGo" href="#">開啟 LINE</a></p>
     </div>
   </div>
 </div>
@@ -627,7 +627,7 @@ const SHOP = {
   yt: "Raven Breaks",
   ytUrl: "https://www.youtube.com/",
   payMinutes: 15,
-  bankCode: "824", bankName: "連線商業銀行（LINE Bank）", bankAcct: "111023683735",
+  bankCode: "700", bankName: "中華郵政", bankAcct: "00214380913026",
   api: "https://script.google.com/macros/s/AKfycbyzvG9C7iU-KGW6rzFDQ68wjCpii1Pob7Y8oDDYaZIsdFfVb-jr2T9S7GGUB3JpYpeq/exec",   // Google Apps Script 網址：訂單進試算表、自動發抽獎券
   strip: "🎄 12/25 抽 3 台 AirPods 4｜消費每滿 NT$500 送 1 張抽獎券 →"
 };
