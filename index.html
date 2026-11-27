@@ -90,6 +90,11 @@ nav.main .icon:hover{color:var(--red)}
 .pf .cta{width:100%;margin:0}
 .hist{padding:10px 0;border-bottom:1px solid var(--hair);font-size:13.5px}
 .hist .d{font-size:12px;color:var(--gray)}
+.fixed{margin:0;padding:8px 0;font-weight:700;border-bottom:1px solid var(--hair)}
+.pbtns{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:4px 0 0}
+.pbtns .cta{margin:0}
+#logout{font-size:13.5px;color:var(--gray)}
+#logout:hover{color:var(--red)}
 
 /* featured box banner */
 .feat{padding:28px 0 8px}
@@ -543,8 +548,8 @@ footer a:hover{color:var(--ink)}
   <div class="sec"><div class="wrap">
     <div class="sec-head" style="margin-bottom:14px"><div><h2>我的訂單</h2><p>開好盒的卡會先放在倉庫。你自己勾選這週要寄哪些，每週四統一寄出，同一週的合成一包。</p></div></div>
     <form class="lookup" id="ordForm">
-      <label for="oId">輸入任一筆訂單編號和下單時填的 LINE / IG，就能看到你全部的訂單</label>
-      <div class="lk-row lk-two"><input id="oId" placeholder="訂單編號，例如 RB1122-0001" autocomplete="off"><input id="oLine" placeholder="LINE / IG" autocomplete="off"><button class="cta" type="submit">查詢</button></div>
+      <label for="oId">輸入任一筆訂單編號和下單時填的 LINE 名稱，就能看到你全部的訂單</label>
+      <div class="lk-row lk-two"><input id="oId" placeholder="訂單編號，例如 RB1122-0001" autocomplete="off"><input id="oLine" placeholder="LINE 名稱" autocomplete="off"><button class="cta" type="submit">查詢</button></div>
       <p class="lk-out" id="oOut" role="status"></p>
     </form>
     <div id="ordView" hidden>
@@ -622,13 +627,12 @@ footer a:hover{color:var(--ink)}
     <div class="pb">
       <a class="go" href="#orders" data-close style="display:block;text-align:center;margin:16px 0 4px">查看我的訂單與出貨進度</a>
       <p class="note" style="margin-top:12px">填一次就好，之後報名會自動帶入。資料只存在這台裝置的瀏覽器裡。</p>
-      <div class="field"><label for="fName">名字 / 暱稱</label><input id="fName" autocomplete="nickname" placeholder="例如：小鴉"></div>
-      <div class="field"><label for="fLine">LINE 名稱或 IG 帳號</label><input id="fLine" placeholder="方便我們對帳"></div>
-      <div class="field"><label for="fShip">寄送方式</label>
-        <select id="fShip"><option>7-11 店到店</option><option>全家店到店</option><option>郵局掛號</option></select>
-      </div>
-      <div class="field"><label for="fStore">門市名稱或地址</label><input id="fStore" placeholder="例如：7-11 東英門市"></div>
-      <button class="cta" id="saveProfile" style="margin:4px 0 0">儲存</button>
+      <div class="field"><label for="fName">名字</label><input id="fName" autocomplete="name" placeholder="取件人姓名，要跟證件一樣"></div>
+      <div class="field"><label for="fLine">LINE 名稱</label><input id="fLine" placeholder="方便我們對帳"></div>
+      <div class="field"><label for="fPhone">手機號碼</label><input id="fPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="12" placeholder="例如：0912345678（店到店取貨用）"></div>
+      <div class="field"><label>寄送方式</label><p class="fixed">7-11 店到店</p></div>
+      <div class="field"><label for="fStore">7-11 門市名稱</label><input id="fStore" placeholder="例如：東英門市"></div>
+      <div class="pbtns"><button class="cta" id="saveProfile">儲存</button><button class="more" id="logout" type="button">登出</button></div>
       <h3 style="font-size:16px;margin:30px 0 4px;border-bottom:3px solid var(--ink);padding-bottom:8px">我的報名紀錄</h3>
       <div id="histList"></div>
     </div>
@@ -826,7 +830,8 @@ $("#dRules").innerHTML = rulesHTML;
 let cur=null, timer=null;
 const store={get(k,d){try{return JSON.parse(localStorage.getItem("rb_"+k))??d}catch(_){return d}},set(k,v){try{localStorage.setItem("rb_"+k,JSON.stringify(v))}catch(_){}}};
 let cart=store.get("cart",[]).filter(c=>{const b=BREAKS.find(x=>x.id===c.b);return b&&b.slots[c.i]&&!b.slots[c.i].sold});
-let profile=store.get("profile",{name:"",line:"",ship:"7-11 店到店",store:""});
+let profile=Object.assign({name:"",line:"",phone:"",store:""},store.get("profile",{}),{ship:"7-11 店到店"});
+const phoneOk=p=>/^09\d{8}$/.test(p);
 let orders=store.get("history",[]);
 const inCart=(b,i)=>cart.some(c=>c.b===b&&c.i===i);
 function toggleCart(b,i){cart=inCart(b,i)?cart.filter(c=>!(c.b===b&&c.i===i)):[...cart,{b,i}];saveCart()}
@@ -855,9 +860,24 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawers()});
 $("#cartIcon").addEventListener("click",()=>{renderCart();openDrawer("#cartDrawer")});
 $("#userIcon").addEventListener("click",()=>{fillProfile();openDrawer("#userDrawer")});
 $("#cartBody").addEventListener("click",e=>{const r=e.target.closest(".rm");if(r)toggleCart(r.dataset.b,+r.dataset.i)});
-function fillProfile(){$("#fName").value=profile.name;$("#fLine").value=profile.line;$("#fShip").value=profile.ship;if($("#fShip").selectedIndex<0)$("#fShip").selectedIndex=0;$("#fStore").value=profile.store;renderHist()}
+function fillProfile(){$("#fName").value=profile.name;$("#fLine").value=profile.line;$("#fPhone").value=profile.phone;$("#fStore").value=profile.store;$("#logout").hidden=!(profile.name||profile.line||profile.phone||orders.length);resetLogout();renderHist()}
 function renderHist(){$("#histList").innerHTML=orders.length?orders.slice().reverse().map(h=>`<div class="hist"><div class="d">${h.at}${h.orderId?`・${h.orderId}`:""}</div>${h.items}<br><b class="num">${nt(h.total)}</b>${h.tickets?`　抽獎券 ${h.tickets} 張`:""}</div>`).join(""):`<p class="note">還沒有報名紀錄。</p>`}
-$("#saveProfile").addEventListener("click",()=>{profile={name:$("#fName").value.trim(),line:$("#fLine").value.trim(),ship:$("#fShip").value,store:$("#fStore").value.trim()};store.set("profile",profile);toast("已儲存")});
+$("#saveProfile").addEventListener("click",()=>{
+  const phone=$("#fPhone").value.replace(/\D/g,"");
+  if(phone&&!phoneOk(phone)){toast("手機號碼要是 09 開頭的 10 碼");$("#fPhone").focus();return}
+  profile={name:$("#fName").value.trim(),line:$("#fLine").value.trim(),phone,ship:"7-11 店到店",store:$("#fStore").value.trim()};
+  store.set("profile",profile);$("#fPhone").value=phone;$("#logout").hidden=false;toast("已儲存");
+});
+let logoutArmed=false,logoutT=null;
+function resetLogout(){logoutArmed=false;clearTimeout(logoutT);$("#logout").textContent="登出"}
+$("#logout").addEventListener("click",()=>{
+  if(!logoutArmed){logoutArmed=true;$("#logout").textContent="再按一次登出（會清掉這台裝置上的資料和報名紀錄）";logoutT=setTimeout(resetLogout,5000);return}
+  resetLogout();
+  try{["profile","history","cart"].forEach(k=>localStorage.removeItem("rb_"+k))}catch(_){}
+  profile={name:"",line:"",phone:"",ship:"7-11 店到店",store:""};orders=[];cart=[];renderCartIcon();
+  oData=null;oSel.clear();$("#oId").value="";$("#oLine").value="";$("#oOut").textContent="";$("#ordView").hidden=true;
+  fillProfile();toast("已登出");
+});
 function buildMsg(items,orderId){
   const ids=[...new Set(items.map(x=>x.b))];
   const lines=ids.map(id=>{const br=BREAKS.find(x=>x.id===id);const its=items.filter(x=>x.b===id);
@@ -866,20 +886,21 @@ function buildMsg(items,orderId){
 ${lines}
 合計：${nt(items.reduce((a,x)=>a+x.slot.price,0))}
 名字：${profile.name||"（請填寫）"}
-LINE / IG：${profile.line||"（請填寫）"}
-寄送：${profile.ship}${profile.store?"／"+profile.store:""}${raffleOn()?`
+LINE：${profile.line||"（請填寫）"}
+電話：${profile.phone||"（請填寫）"}
+寄送：7-11 店到店${profile.store?"／"+profile.store:""}${raffleOn()?`
 聖誕抽獎券：${tickets(items.reduce((a,x)=>a+x.slot.price,0))} 張`:""}`;
 }
 $("#checkoutBtn").addEventListener("click",async()=>{
   const items=cartItems(); if(!items.length) return;
-  if(!profile.name||!profile.line){toast("請先填好我的資料");fillProfile();openDrawer("#userDrawer");return}
+  if(!profile.name||!profile.line||!phoneOk(profile.phone||"")||!profile.store){toast("請先填好名字、LINE、手機和 7-11 門市");fillProfile();openDrawer("#userDrawer");return}
   const sum=items.reduce((a,x)=>a+x.slot.price,0);
   let orderId="", count=raffleOn()?tickets(sum):0;
   if(SHOP.api){
     const btn=$("#checkoutBtn"); btn.disabled=true; btn.textContent="送出中…";
     try{
       const r=await fetch(SHOP.api,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
-        body:JSON.stringify({name:profile.name,line:profile.line,ship:profile.ship+(profile.store?"／"+profile.store:""),
+        body:JSON.stringify({name:profile.name,line:profile.line,ship:"7-11 店到店／"+profile.store+"／"+profile.phone,
           items:items.map(x=>`#${x.b} ${x.slot.name} ${x.slot.price}`).join("、"),total:sum})}).then(res=>res.json());
       if(!r.ok) throw new Error(r.error);
       orderId=r.orderId; count=r.count;
@@ -960,7 +981,7 @@ function orderPrefill(){
 }
 async function loadOrders(){
   const id=$("#oId").value.trim(), line=$("#oLine").value.trim(), out=$("#oOut");
-  if(!id||!line){out.textContent="請輸入訂單編號和 LINE / IG。";return}
+  if(!id||!line){out.textContent="請輸入訂單編號和 LINE 名稱。";return}
   if(!SHOP.api){out.textContent="線上查詢還沒開放，請先私訊 LINE 詢問。";return}
   out.textContent="查詢中…";
   try{
