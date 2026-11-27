@@ -560,7 +560,7 @@ footer a:hover{color:var(--ink)}
 <!-- LIVE -->
 <section class="page" id="p-live">
   <div class="sec"><div class="wrap">
-    <div class="sec-head" style="margin-bottom:14px"><div><h2>直播</h2><p>所有團拆都在 YouTube 直播開箱，直播連結開播前會在 LINE 社群公告。</p></div><a class="go" id="ytGo" href="#">前往 YouTube 頻道</a></div>
+    <div class="sec-head" style="margin-bottom:14px"><div><h2>直播</h2><p>所有團拆都在 YouTube 直播開箱，直播連結開播前會在 LINE 社群公告。</p></div><a class="go" id="ytGo" href="#" target="_blank" rel="noopener">前往 YouTube 頻道</a></div>
     <div class="sched" id="liveList"></div>
   </div></div>
 </section>
@@ -571,7 +571,7 @@ footer a:hover{color:var(--ink)}
   <div class="wrap">
     <div><a href="#home" aria-label="Raven Breaks 首頁"><svg class="logo-foot" viewBox="0 0 800 470" role="img" aria-label="Raven Breaks"><use href="#rbLogo"/></svg></a><p style="margin:14px 0 0;max-width:34ch">全程直播的卡牌團拆。運動卡、寶可夢、TCG。</p></div>
     <div><h4>服務</h4><a href="#breaks">所有團拆</a><a href="#rules">團拆規則</a><a href="#orders">我的訂單</a></div>
-    <div><h4>社群</h4><a id="lineFoot" href="#">LINE 社群</a><a id="igFoot" href="#">Instagram</a><a id="ytFoot" href="#">YouTube</a></div>
+    <div><h4>社群</h4><a id="lineFoot" href="#" target="_blank" rel="noopener">LINE 社群</a><a id="igFoot" href="#" target="_blank" rel="noopener">Instagram</a><a id="ytFoot" href="#" target="_blank" rel="noopener">YouTube</a></div>
     <div class="warn">防詐提醒：我們不會打電話要求你操作 ATM、網路銀行或解除分期付款。接到可疑電話請撥 165 反詐騙專線。　© 2026 Raven Breaks</div>
   </div>
 </footer>
@@ -592,7 +592,7 @@ footer a:hover{color:var(--ink)}
         <p class="note" style="margin:8px 0 0">付完款在 LINE 傳「訂單編號」給我們，銀行轉帳的話再附上你的帳號後 5 碼，我們確認後就會發抽獎券。</p>
       </div>
       <button class="cta" id="checkoutBtn">送出報名（複製訊息）</button>
-      <p class="note">報名資料用「我的資料」裡填的。位置以 LINE 群組裡先喊到的人為準。<a class="more" id="lineGo" href="#">開啟 LINE</a></p>
+      <p class="note">報名資料用「我的資料」裡填的。位置以 LINE 群組裡先喊到的人為準。<a class="more" id="lineGo" href="#" target="_blank" rel="noopener">開啟 LINE 社群</a></p>
     </div>
   </div>
 </div>
@@ -620,12 +620,12 @@ footer a:hover{color:var(--ink)}
 <script>
 /* ===== 店家設定：改這裡就好 ===== */
 const SHOP = {
-  lineId: "@ravenbreaks",          // LINE 官方帳號 ID（範例）
-  lineUrl: "https://line.me/R/ti/p/@ravenbreaks",
+  lineId: "Raven Breaks 渡鴉團拆",   // LINE 社群名稱
+  lineUrl: "https://line.me/ti/g2/BUM6os7l_zviJBXxPcxT1FBori5d2NFTGml5LQ",
   ig: "@raven.breaks",
   igUrl: "https://www.instagram.com/",
-  yt: "Raven Breaks",
-  ytUrl: "https://www.youtube.com/",
+  yt: "@ravenbreaks-u3i",
+  ytUrl: "https://www.youtube.com/@ravenbreaks-u3i",
   payMinutes: 15,
   bankCode: "700", bankName: "中華郵政", bankAcct: "00214380913026",
   api: "https://script.google.com/macros/s/AKfycbyzvG9C7iU-KGW6rzFDQ68wjCpii1Pob7Y8oDDYaZIsdFfVb-jr2T9S7GGUB3JpYpeq/exec",   // Google Apps Script 網址：訂單進試算表、自動發抽獎券
@@ -669,7 +669,7 @@ function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");c
 /* ===== static bits ===== */
 $("#strip").innerHTML=`<a href="#event">${SHOP.strip}</a>`;
 ["#lineFoot","#lineGo"].forEach(s=>$(s).href=SHOP.lineUrl);
-$("#igFoot").href=SHOP.igUrl; $("#ytFoot").href=SHOP.ytUrl;
+$("#igFoot").href=SHOP.igUrl; if(/instagram\.com\/?$/.test(SHOP.igUrl)) $("#igFoot").hidden=true; $("#ytFoot").href=SHOP.ytUrl;
 $("#ytGo").href=SHOP.ytUrl;
 
 /* 商城商品：[品名, 分類, 價格, 狀態] */
