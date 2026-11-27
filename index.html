@@ -187,7 +187,7 @@ nav.main .icon:hover{color:var(--red)}
 .lk-out b{color:var(--red);font-size:18px}
 /* 我的訂單 */
 .lk-two input{min-width:160px}
-.stbar{display:grid;grid-template-columns:repeat(4,1fr);border-top:3px solid var(--ink);border-bottom:1px solid var(--hair);margin:0 0 22px}
+.stbar{display:grid;grid-template-columns:repeat(5,1fr);border-top:3px solid var(--ink);border-bottom:1px solid var(--hair);margin:0 0 22px}
 .stbar button{padding:16px 6px 12px;text-align:center;cursor:pointer}
 .stbar button+button{border-left:1px solid var(--hair)}
 .stbar b{display:block;font-family:var(--num);font-size:34px;line-height:1.1}
@@ -207,8 +207,28 @@ nav.main .icon:hover{color:var(--red)}
 .olist .o .st{grid-column:2;grid-row:1;text-align:right;font-weight:900;font-size:13.5px}
 .olist .o .amt{grid-column:2;text-align:right;font-family:var(--num);font-size:18px}
 .olist .o .tk{grid-column:1/-1;font-size:13px;color:var(--gray)}
-.st-unpaid{color:var(--red)}.st-waiting{color:var(--gray)}.st-ready{color:var(--ink)}.st-shipped{color:#1f7a45}
-@media (max-width:560px){.stbar b{font-size:28px}.stbar span{font-size:12px}}
+.st-unpaid{color:var(--red)}.st-waiting{color:var(--gray)}.st-ready{color:var(--ink)}.st-requested{color:var(--red)}.st-shipped{color:#1f7a45}
+.wh{border-top:3px solid var(--ink);margin:0 0 26px}
+.wh-h{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap;padding:14px 0 10px}
+.wh-h h3{font-size:18px;font-weight:900;margin:0}
+.wh-h .sm{font-size:13px;color:var(--gray)}
+.wh-t{border:1px solid var(--hair)}
+.wh-r{display:grid;grid-template-columns:22px 130px minmax(0,1fr) 90px;gap:12px;align-items:center;padding:11px 12px;border-top:1px solid var(--hair);cursor:pointer;font-size:14px}
+.wh-r:first-child{border-top:0}
+.wh-r:hover{background:#fafaf7}
+.wh-head{background:var(--tint);font-weight:700;font-size:13px;color:var(--gray);cursor:default}
+.wh-head:hover{background:var(--tint)}
+.wh-r input{width:18px;height:18px;margin:0;accent-color:var(--red);cursor:pointer}
+.wh-r span:last-child{text-align:right}
+.wh-f{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 4px;font-size:14px}
+.wh-f b{color:var(--red);font-family:var(--num);font-size:20px}
+.wh-f .cta{margin-left:auto}
+.batch .more{font-size:13px}
+@media (max-width:560px){.stbar b{font-size:24px}.stbar span{font-size:11.5px}.stbar button{padding:12px 2px 10px}
+.wh-r{grid-template-columns:22px minmax(0,1fr) auto;gap:4px 10px}
+.wh-r span:nth-child(3){grid-column:2/-1;grid-row:2;font-size:13px;color:#555}
+.wh-head span:nth-child(3){display:none}
+.wh-f .cta{width:100%;margin:0}}
 .pay{border:2px solid var(--ink);padding:12px 14px;margin-bottom:12px;background:var(--tint)}
 .pay-h{font-weight:900;margin-bottom:6px}
 .pay-h b.num{color:var(--red);font-size:20px}
@@ -521,7 +541,7 @@ footer a:hover{color:var(--ink)}
 <!-- MY ORDERS -->
 <section class="page" id="p-orders">
   <div class="sec"><div class="wrap">
-    <div class="sec-head" style="margin-bottom:14px"><div><h2>我的訂單</h2><p>每週四統一寄出。同一週開好盒的卡，會合成一包寄給你。</p></div></div>
+    <div class="sec-head" style="margin-bottom:14px"><div><h2>我的訂單</h2><p>開好盒的卡會先放在倉庫。你自己勾選這週要寄哪些，每週四統一寄出，同一週的合成一包。</p></div></div>
     <form class="lookup" id="ordForm">
       <label for="oId">輸入任一筆訂單編號和下單時填的 LINE / IG，就能看到你全部的訂單</label>
       <div class="lk-row lk-two"><input id="oId" placeholder="訂單編號，例如 RB1122-0001" autocomplete="off"><input id="oLine" placeholder="LINE / IG" autocomplete="off"><button class="cta" type="submit">查詢</button></div>
@@ -605,7 +625,7 @@ footer a:hover{color:var(--ink)}
       <div class="field"><label for="fName">名字 / 暱稱</label><input id="fName" autocomplete="nickname" placeholder="例如：小鴉"></div>
       <div class="field"><label for="fLine">LINE 名稱或 IG 帳號</label><input id="fLine" placeholder="方便我們對帳"></div>
       <div class="field"><label for="fShip">寄送方式</label>
-        <select id="fShip"><option>7-11 店到店</option><option>全家店到店</option><option>郵局掛號</option><option>先寄放，不要寄（之後通知再寄）</option></select>
+        <select id="fShip"><option>7-11 店到店</option><option>全家店到店</option><option>郵局掛號</option></select>
       </div>
       <div class="field"><label for="fStore">門市名稱或地址</label><input id="fStore" placeholder="例如：7-11 東英門市"></div>
       <button class="cta" id="saveProfile" style="margin:4px 0 0">儲存</button>
@@ -780,7 +800,7 @@ const RULES = [
   ["一張卡有多位球員簽名",`<ol><li>卡上哪一隊的球員最多，就歸那一隊的買家。</li><li>人數一樣時，在直播中抽籤決定。</li><li>球員所屬球隊以官方卡表（checklist）為準，不看球員現在效力的球隊。</li><li>隨機尾號團不適用以上規則，沒有編號或多簽的卡，一律直播抽籤。</li></ol>`],
   ["國家隊卡怎麼算",`<p>卡片只標示國家隊、沒標示職業球隊時，依<b>開團當下</b>球員所屬的職業球隊認定；開團後轉隊不影響歸屬。</p>`],
   ["時間到了還沒滿團",`<ul><li><b>延長：</b>自動延長截止時間，直到賣完。</li><li><b>取消：</b>若決定取消，已付款的買家全額退款，7 個工作天內原路退回。</li></ul>`],
-  ["寄送與保護",`<p><b>每週四統一寄出。</b>週四出貨前已經開盒的卡，同一個人會合成一包寄，在「我的訂單」可以看到這週哪些會一起寄。</p><p>卡會套卡套、硬殼卡夾後寄出。可選 7-11／全家店到店、郵局掛號，或先寄放，之後通知再寄。</p>`]
+  ["寄送與保護",`<p><b>每週四統一寄出。</b>開好盒的卡會先放在倉庫，你在「我的訂單」勾選這週要寄的，週四就會一起寄出，同一週申請的合成一包。沒勾的會繼續幫你保管，想累積多一點再寄也可以。</p><p>卡會套卡套、硬殼卡夾後寄出。可選 7-11／全家店到店、郵局掛號。</p>`]
 ];
 const rulesHTML = RULES.map(([t,c])=>`<div class="rule"><h3>${t}</h3><div class="c">${c}</div></div>`).join("");
 $("#rulesFull").innerHTML = rulesHTML;
@@ -819,7 +839,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawers()});
 $("#cartIcon").addEventListener("click",()=>{renderCart();openDrawer("#cartDrawer")});
 $("#userIcon").addEventListener("click",()=>{fillProfile();openDrawer("#userDrawer")});
 $("#cartBody").addEventListener("click",e=>{const r=e.target.closest(".rm");if(r)toggleCart(r.dataset.b,+r.dataset.i)});
-function fillProfile(){$("#fName").value=profile.name;$("#fLine").value=profile.line;$("#fShip").value=profile.ship;$("#fStore").value=profile.store;renderHist()}
+function fillProfile(){$("#fName").value=profile.name;$("#fLine").value=profile.line;$("#fShip").value=profile.ship;if($("#fShip").selectedIndex<0)$("#fShip").selectedIndex=0;$("#fStore").value=profile.store;renderHist()}
 function renderHist(){$("#histList").innerHTML=orders.length?orders.slice().reverse().map(h=>`<div class="hist"><div class="d">${h.at}${h.orderId?`・${h.orderId}`:""}</div>${h.items}<br><b class="num">${nt(h.total)}</b>${h.tickets?`　抽獎券 ${h.tickets} 張`:""}</div>`).join(""):`<p class="note">還沒有報名紀錄。</p>`}
 $("#saveProfile").addEventListener("click",()=>{profile={name:$("#fName").value.trim(),line:$("#fLine").value.trim(),ship:$("#fShip").value,store:$("#fStore").value.trim()};store.set("profile",profile);toast("已儲存")});
 function buildMsg(items,orderId){
@@ -915,8 +935,8 @@ renderCartIcon();
 
 /* ===== 我的訂單 ===== */
 const escH=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
-const OST={unpaid:"待付款",waiting:"等開盒",ready:"出貨日寄出",shipped:"已寄出"};
-let oData=null, oFilter="";
+const OST={unpaid:"待付款",waiting:"等開盒",ready:"在倉庫",requested:"申請寄出",shipped:"已寄出"};
+let oData=null, oFilter="", oSel=new Set();
 function orderPrefill(){
   if(!$("#oLine").value&&profile.line) $("#oLine").value=profile.line;
   const last=orders.filter(o=>o.orderId).pop();
@@ -935,20 +955,48 @@ async function loadOrders(){
 }
 function renderOrders(){
   const os=oData.orders, m=oData.monday, cnt=k=>os.filter(o=>o.stage===k).length;
-  const w=m.w||"四", monLabel=m.today?`今天（週${w}）`:m.date+`（${w}）`;
-  $("#oBar").innerHTML=Object.keys(OST).map(k=>`<button type="button" class="${k==="ready"?"mon ":""}${oFilter===k?"on":""}" data-f="${k}"><b>${cnt(k)}</b><span>${k==="ready"?(m.today?"今天寄":m.date+" 寄"):OST[k]}</span></button>`).join("");
-  const ready=os.filter(o=>o.stage==="ready"), wait=os.filter(o=>o.stage==="waiting"), unpaid=os.filter(o=>o.stage==="unpaid");
-  $("#oBatch").innerHTML=ready.length
-    ?`<h3>${monLabel}這幾筆會一起寄，合成 <span class="num">1</span> 包</h3><ul>${ready.map(o=>`<li><b class="num">${escH(o.id)}</b>　${escH(o.items)}</li>`).join("")}</ul>`+
-      (wait.length?`<p class="sm">另外還有 ${wait.length} 筆在等開盒。只要在週${w}出貨前開盒，也會放進同一包。</p>`:"")
-    :`<h3>${monLabel}目前沒有要寄的</h3><p class="sm">${wait.length?`你有 ${wait.length} 筆在等開盒，開好後會排進最近的週${w}一起寄。`:unpaid.length?`付款確認、開盒之後，就會排進週${w}出貨。`:`開好盒的卡會在每週${w}統一寄出。`}</p>`;
+  const w=m.w||"四", shipLabel=m.today?`今天（週${w}）`:m.date+`（${w}）`;
+  $("#oBar").innerHTML=Object.keys(OST).map(k=>`<button type="button" class="${k==="requested"?"mon ":""}${oFilter===k?"on":""}" data-f="${k}"><b>${cnt(k)}</b><span>${OST[k]}</span></button>`).join("");
+  const ready=os.filter(o=>o.stage==="ready"), req=os.filter(o=>o.stage==="requested"), wait=os.filter(o=>o.stage==="waiting");
+  oSel=new Set([...oSel].filter(id=>ready.some(o=>o.id===id)));
+  let h=`<div class="wh"><div class="wh-h"><h3>在倉庫的卡</h3><span class="sm">勾選這週要寄的，${shipLabel}寄出；沒勾的會繼續幫你保管</span></div>`;
+  if(ready.length){
+    h+=`<div class="wh-t"><label class="wh-r wh-head"><input type="checkbox" id="oAll" ${oSel.size===ready.length?"checked":""} aria-label="全選"><span>訂單編號</span><span>內容</span><span>金額</span></label>`+
+      ready.map(o=>`<label class="wh-r"><input type="checkbox" data-id="${escH(o.id)}" ${oSel.has(o.id)?"checked":""}><span class="num">${escH(o.id)}</span><span>${escH(o.items)}</span><span class="num">${nt(o.total)}</span></label>`).join("")+`</div>`+
+      `<div class="wh-f"><span>合計 <b>${ready.length}</b> 筆　已選 <b>${oSel.size}</b> 筆</span><button type="button" class="cta" id="oShip" ${oSel.size?"":"disabled"}>申請 ${shipLabel}寄出</button></div>`;
+  } else h+=`<p class="sm" style="padding:4px 0 14px">${wait.length?`你有 ${wait.length} 筆在等開盒，開好後會放進倉庫，到時再勾選要不要寄。`:"目前倉庫裡沒有你的卡。"}</p>`;
+  h+=`</div>`;
+  if(req.length) h+=`<div class="batch"><h3>${shipLabel}會寄出，合成 <span class="num">1</span> 包</h3><ul>${req.map(o=>`<li><b class="num">${escH(o.id)}</b>　${escH(o.items)}　<button type="button" class="more" data-cancel="${escH(o.id)}">取消</button></li>`).join("")}</ul><p class="sm">想晚點再寄就按「取消」，卡會放回倉庫。</p></div>`;
+  $("#oBatch").innerHTML=h;
   const list=oFilter?os.filter(o=>o.stage===oFilter):os;
-  $("#oList").innerHTML=list.length?list.map(o=>`<div class="o"><span class="id">${escH(o.id)}</span><span class="st st-${o.stage}">${o.stage==="ready"?monLabel+"寄出":OST[o.stage]}</span>
+  $("#oList").innerHTML=list.length?list.map(o=>`<div class="o"><span class="id">${escH(o.id)}</span><span class="st st-${o.stage}">${o.stage==="requested"?shipLabel+"寄出":OST[o.stage]}</span>
     <span class="it">${escH(o.items)}</span><span class="amt">${nt(o.total)}</span>
     ${o.stage==="shipped"?`<span class="tk">${o.shippedAt?new Date(o.shippedAt).toLocaleDateString("zh-TW")+" 寄出":""}${o.track?"・物流單號 "+escH(o.track):""}</span>`:o.tickets&&/\d/.test(o.tickets)?`<span class="tk">抽獎券 ${escH(o.tickets)}</span>`:""}</div>`).join("")
     :`<p class="empty">沒有這個狀態的訂單</p>`;
   $("#ordView").hidden=false;
 }
+async function shipReq(ids,on){
+  const out=$("#oOut"); out.textContent="處理中…";
+  try{
+    const r=await fetch(SHOP.api,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"ship",q:$("#oId").value.trim(),line:$("#oLine").value.trim(),ids,on})}).then(res=>res.json());
+    if(!r.ok){out.textContent=r.error||"失敗，請再試一次。";return}
+    oSel.clear(); toast(on?`已申請 ${r.n} 筆，週${(r.monday&&r.monday.w)||"四"}寄出`:"已取消，卡放回倉庫");
+    await loadOrders();
+  }catch(_){out.textContent="連線失敗，請稍後再試。"}
+}
+$("#oBatch").addEventListener("change",e=>{
+  const c=e.target; if(c.type!=="checkbox") return;
+  const ready=oData.orders.filter(o=>o.stage==="ready");
+  if(c.id==="oAll"){oSel=c.checked?new Set(ready.map(o=>o.id)):new Set()}
+  else if(c.checked) oSel.add(c.dataset.id); else oSel.delete(c.dataset.id);
+  renderOrders();
+});
+$("#oBatch").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b||b.disabled) return;
+  if(b.id==="oShip"){b.disabled=true;b.textContent="處理中…";shipReq([...oSel],true)}
+  else if(b.dataset.cancel){b.disabled=true;shipReq([b.dataset.cancel],false)}
+});
 $("#ordForm").addEventListener("submit",e=>{e.preventDefault();loadOrders()});
 $("#oBar").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;oFilter=oFilter===b.dataset.f?"":b.dataset.f;renderOrders()});
 
