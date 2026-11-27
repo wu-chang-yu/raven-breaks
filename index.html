@@ -411,8 +411,6 @@ footer a:hover{color:var(--ink)}
     <a href="#breaks" data-nav="breaks">團拆</a>
     <a href="#shop" data-nav="shop">商城</a>
     <a href="#live" data-nav="live"><span class="dot" aria-hidden="true"></span>直播</a>
-    <a href="#about" data-nav="about">關於我們</a>
-    <a href="#contact" data-nav="contact">聯絡我們</a>
     <a href="#orders" data-nav="orders">我的訂單</a>
     <div class="icons">
       <button class="icon" id="cartIcon" aria-label="購物車"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 10.5h10.3L20 7H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg><span class="badge" id="cartCount"></span></button>
@@ -508,15 +506,6 @@ footer a:hover{color:var(--ink)}
   </div></div>
 </section>
 
-<!-- ABOUT -->
-<section class="page" id="p-about">
-  <div class="sec"><div class="wrap prose">
-    <svg class="logo-about" viewBox="0 0 800 470" role="img" aria-label="Raven Breaks"><use href="#rbLogo"/></svg>
-    <p>渡鴉喜歡收集閃亮的東西，我們也是。</p>
-    <p>Raven Breaks 是一間小型團拆工作室，開運動卡、寶可夢與各類 TCG。我們覺得團拆最重要的是透明：每一包都在直播鏡頭前拆，卡表和售出狀況都公開在網站上。</p>
-    <p><a class="more" href="#rules">看團拆規則</a></p>
-  </div></div>
-</section>
 
 <!-- EVENT -->
 <section class="page" id="p-event">
@@ -576,24 +565,12 @@ footer a:hover{color:var(--ink)}
   </div></div>
 </section>
 
-<!-- CONTACT -->
-<section class="page" id="p-contact">
-  <div class="sec"><div class="wrap">
-    <div class="prose"><h2>聯絡我們</h2><p>開團通知、報名、問卡況，都可以直接傳 LINE 給我們。</p></div>
-    <div class="rules" style="margin-top:20px">
-      <div class="rule"><h3>LINE 官方帳號</h3><div class="c"><a class="more" id="lineC" href="#"></a><p style="margin-top:6px">報名、付款確認、出貨查詢</p></div></div>
-      <div class="rule"><h3>Instagram</h3><div class="c"><a class="more" id="igC" href="#"></a><p style="margin-top:6px">開箱精華、新團預告</p></div></div>
-      <div class="rule"><h3>YouTube</h3><div class="c"><a class="more" id="ytC" href="#"></a><p style="margin-top:6px">直播開箱與重播</p></div></div>
-      <div class="rule"><h3>回覆時間</h3><div class="c"><p>每天 12:00–24:00，直播中會晚一點回。</p></div></div>
-    </div>
-  </div></div>
-</section>
 </main>
 
 <footer>
   <div class="wrap">
     <div><a href="#home" aria-label="Raven Breaks 首頁"><svg class="logo-foot" viewBox="0 0 800 470" role="img" aria-label="Raven Breaks"><use href="#rbLogo"/></svg></a><p style="margin:14px 0 0;max-width:34ch">全程直播的卡牌團拆。運動卡、寶可夢、TCG。</p></div>
-    <div><h4>服務</h4><a href="#breaks">所有團拆</a><a href="#rules">團拆規則</a><a href="#about">關於我們</a><a href="#contact">聯絡我們</a></div>
+    <div><h4>服務</h4><a href="#breaks">所有團拆</a><a href="#rules">團拆規則</a><a href="#orders">我的訂單</a></div>
     <div><h4>社群</h4><a id="lineFoot" href="#">LINE 社群</a><a id="igFoot" href="#">Instagram</a><a id="ytFoot" href="#">YouTube</a></div>
     <div class="warn">防詐提醒：我們不會打電話要求你操作 ATM、網路銀行或解除分期付款。接到可疑電話請撥 165 反詐騙專線。　© 2026 Raven Breaks</div>
   </div>
@@ -717,9 +694,7 @@ function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");c
 $("#strip").innerHTML=`<a href="#event">${SHOP.strip}</a>`;
 ["#lineFoot","#lineGo"].forEach(s=>$(s).href=SHOP.lineUrl);
 $("#igFoot").href=SHOP.igUrl; $("#ytFoot").href=SHOP.ytUrl;
-$("#lineC").textContent=SHOP.lineId; $("#lineC").href=SHOP.lineUrl;
-$("#igC").textContent=SHOP.ig; $("#igC").href=SHOP.igUrl;
-$("#ytC").textContent=SHOP.yt; $("#ytC").href=SHOP.ytUrl; $("#ytGo").href=SHOP.ytUrl;
+$("#ytGo").href=SHOP.ytUrl;
 
 /* 商城商品：[品名, 分類, 價格, 狀態] */
 const SHOP_ITEMS = [
@@ -1043,7 +1018,7 @@ function route(){
   let page=h, navKey=h;
   if(h.startsWith("break-")){page="detail";navKey="breaks";showDetail(h.slice(6))}
   else { clearInterval(timer); cur=null; document.title="Raven Breaks 團拆"; }
-  if(!["home","breaks","detail","rules","about","shop","live","contact","event","orders"].includes(page)){page="home";navKey="home"}
+  if(!["home","breaks","detail","rules","shop","live","event","orders"].includes(page)){page="home";navKey="home"}
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.id==="p-"+page));
   document.querySelectorAll("nav.main a").forEach(a=>a.classList.toggle("on",a.dataset.nav===navKey));
   window.scrollTo(0,0);
